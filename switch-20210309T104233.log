@@ -1,0 +1,29 @@
+[7] INFO: # Xorg pre-start hook
+[7] INFO: Previous state was: {'type': 'pending_pre_xorg_start', 'requested_mode': 'integrated', 'current_mode': None}
+[7] INFO: Requested mode is: integrated
+[30] INFO: Available modules: []
+[30] INFO: Loading module bbswitch
+[30] ERROR: Cannot load bbswitch. Continuing anyways. Error is: module bbswitch is not available for current kernel. Is the corresponding package installed ?
+[30] INFO: Setting GPU power to OFF via bbswitch
+[30] ERROR: Xorg pre-start setup error
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/site-packages/optimus_manager/kernel.py", line 296, in _set_bbswitch_state
+    with open("/proc/acpi/bbswitch", "w") as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/proc/acpi/bbswitch'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/site-packages/optimus_manager/hooks/pre_xorg_start.py", line 51, in main
+    setup_kernel_state(config, prev_state, requested_mode)
+  File "/usr/lib/python3.9/site-packages/optimus_manager/kernel.py", line 25, in setup_kernel_state
+    _nvidia_down(config)
+  File "/usr/lib/python3.9/site-packages/optimus_manager/kernel.py", line 106, in _nvidia_down
+    nvidia_power_down(config, available_modules)
+  File "/usr/lib/python3.9/site-packages/optimus_manager/kernel.py", line 60, in nvidia_power_down
+    _set_bbswitch_state("OFF")
+  File "/usr/lib/python3.9/site-packages/optimus_manager/kernel.py", line 299, in _set_bbswitch_state
+    raise KernelSetupError("Cannot open /proc/acpi/bbswitch") from e
+optimus_manager.kernel.KernelSetupError: Cannot open /proc/acpi/bbswitch
+[31] INFO: Removing /etc/X11/xorg.conf.d/10-optimus-manager.conf (if present)
+[31] INFO: Writing state {'type': 'pre_xorg_start_failed', 'switch_id': '20210309T104233', 'requested_mode': 'integrated'}
